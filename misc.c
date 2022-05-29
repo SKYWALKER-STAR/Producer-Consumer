@@ -57,7 +57,6 @@ int pop(BUFFER *stack)
 {
 	int value;
 	if (stack->size == 0) {
-		printf("From pop error\n");
 		return -1;
 	}
 	else {
@@ -108,8 +107,11 @@ void print_stack(BUFFER *stack)
 void *producer(void *stack)
 {
 	while(1) {
+		sem_wait(&spaces);
 		sem_wait(&mutex);
+
 		push((BUFFER*)stack,1);
+
 		sem_post(&mutex);
 		sem_post(&items);
 	}
@@ -124,14 +126,13 @@ void *consumer(void *stack)
 {
 	char c;
 	while(1) {
-		c = getchar();
-		if ( c == 'a') {
-			sem_wait(&items);
-			sem_wait(&mutex);
-			pop((BUFFER*)stack);
-			print_stack((BUFFER*)stack);
-			sem_post(&mutex);
-		}
+		sem_wait(&items);
+		sem_wait(&mutex);
+
+		pop((BUFFER*)stack);
+
+		sem_post(&mutex);
+		sem_post(&spaces);
 	}
 }
 

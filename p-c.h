@@ -16,7 +16,7 @@
 #include <unistd.h>
 
 #define MAXSIZE 100
-#define THREAD_NUM 10
+#define THREAD_NUM 100
 
 typedef struct BUFFER
 {
@@ -41,3 +41,4 @@ int err;
 
 sem_t mutex;
 sem_t items;
+sem_t spaces;

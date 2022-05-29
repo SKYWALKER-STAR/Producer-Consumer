@@ -19,12 +19,18 @@ static void initialization()
 	errno = 0;
 	sem_init(&mutex,0,1);
 	if (errno) {
-		perror("main.c:26:8:error");
+		perror("main.c:22:8:error");
 		exit(-1);
 	}
-	sem_init(&items,0,10);
+	sem_init(&items,0,0);
 	if (errno) {
-		perror("main.c:31:8:error");
+		perror("main.c:27:8:error");
+		exit(-1);
+	}
+
+	sem_init(&items,0,MAXSIZE);
+	if (errno) {
+		perror("main.c:33:8:error");
 		exit(-1);
 	}
 	
